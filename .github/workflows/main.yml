@@ -7,5 +7,3 @@ on:
 jobs:
   prepare_release:
     uses: marvjohnson/composit-action/.github/workflows/action.yml@main
-    with:
-      NEW_VERSION: ${{ inputs.new_version }}
