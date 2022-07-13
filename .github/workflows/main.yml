@@ -11,9 +11,9 @@ on:
 jobs:
   foo:
     runs-on: ubuntu-latest
-    env:
-      PAT: ${{ secrets.Pat }}
     steps:
+        env:
+          PAT: ${{ secrets.Pat }}
       - if: ${{ env.PAT != '' }}
         run: |
           curl \
