@@ -9,8 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - shell: bash
-        if: ${{ env.pat != '' }}
+        if: ${{ env.PAT != '' }}
         run: echo "$PAT $TEST"
       - shell: bash
-        if: ${{ env.pat == '' }}
+        if: ${{ env.PAT == '' }}
         run: echo "no pat! $TEST"
