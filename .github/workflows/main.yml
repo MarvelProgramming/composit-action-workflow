@@ -7,7 +7,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - id: foo
-        uses: actions/composit-action@v1
+        uses: https://github.com/MarvJohnson/composit-action@v1
         with:
           foo-bar: 'Hello World!'
       - run: echo random-number ${{ steps.foo.outputs.bar }}
