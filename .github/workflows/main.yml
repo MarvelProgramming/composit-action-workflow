@@ -1,11 +1,11 @@
 on:
   workflow_dispatch:
     inputs:
-      version:
+      new_version:
         type: string
         required: true
 jobs:
-  foo:
+  prepare_release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -14,7 +14,7 @@ jobs:
           node-version: 14
       - uses: marvjohnson/composit-action@v1
         env:
-          VERSION: ${{ inputs.version }}
+          NEW_VERSION: ${{ inputs.new_version }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          version: $VERSION
+          new_version: $NEW_VERSION
