@@ -14,8 +14,8 @@ jobs:
     steps:
       - name: test
         env:
-          PAT: ${{ secrets.Pat }}
-      - if: ${{ env.PAT !== '' }}
+          PAT: ${{ secrets.pat }}
+      - if: ${{ env.PAT != '' }}
         run: |
           curl \
           -X POST \
