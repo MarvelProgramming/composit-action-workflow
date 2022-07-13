@@ -5,9 +5,6 @@ on:
         type: string
         required: true
 
-env:
-  GH_TOKEN: ${{ secrets.GH_TOKEN }}
-
 jobs:
   prepare_release:
     uses: marvjohnson/composit-action/.github/workflows/action.yml@main
