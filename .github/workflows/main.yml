@@ -2,7 +2,11 @@ on:
   workflow_dispatch:
     inputs:
       new_version:
-        type: string
+        type: choice
+        options:
+        - major
+        - minor
+        - patch
         required: true
 
 jobs:
