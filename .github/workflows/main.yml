@@ -1,15 +1,16 @@
 on: workflow_dispatch
+
+env:
+  TEST: Hello
+  PAT: ${{ secrets.pat }}
+
 jobs:
   foo:
     runs-on: ubuntu-latest
     steps:
       - shell: bash
-        env:
-          PAT: ${{ secrets.pat }}
         if: ${{ env.pat != '' }}
-        run: echo "$PAT"
+        run: echo "$PAT $TEST"
       - shell: bash
-        env:
-          PAT: ${{ secrets.pat }}
         if: ${{ env.pat == '' }}
-        run: echo "no pat!"
+        run: echo "no pat! $TEST"
