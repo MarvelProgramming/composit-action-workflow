@@ -12,7 +12,7 @@ jobs:
   foo:
     runs-on: ubuntu-latest
     env:
-      PAT: ${{ secrets.pat }}
+      PAT: ${{ secrets.Pat }}
     steps:
       - if: ${{ env.PAT != '' }}
         run: |
@@ -23,4 +23,4 @@ jobs:
           --url https://api.github.com/repos/marvjohnson/test-action/actions/workflows/test.yml/dispatches \
           -d '{"ref":"topic-branch","inputs":{"name":"Mona the Octocat","home":"San Francisco, CA"}}'
       - if: ${{ env.PAT == '' }}
-        run: echo 'env is empty!'
+        run: echo 'env is empty! $PAT'
