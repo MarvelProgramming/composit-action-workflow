@@ -1,7 +1,6 @@
 on: workflow_dispatch
 
 env:
-  TEST: Hello
   PAT: ${{ secrets.pat }}
 
 jobs:
