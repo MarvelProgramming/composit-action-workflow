@@ -12,5 +12,5 @@ jobs:
         if: ${{ env.pat != '' }}
         run: echo "$PAT $TEST"
       - shell: bash
-        if: ${{ env.pat == '' }}
+        if: ${{ env.TEST == '' }}
         run: echo "no pat! $TEST"
