@@ -7,7 +7,7 @@ on:
         options:
         - thing1
         - thing2
-
+permissions: write-all
 jobs:
   foo:
     runs-on: ubuntu-latest
