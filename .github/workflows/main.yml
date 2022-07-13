@@ -1,7 +1,7 @@
 on:
   workflow_dispatch:
     inputs:
-      version_type:
+      release_type:
         type: choice
         options:
         - major
@@ -13,4 +13,4 @@ jobs:
   prepare_release:
     uses: marvjohnson/composit-action/.github/workflows/action.yml@main
     with:
-      version_type: ${{ inputs.version_type }}
+      release_type: ${{ inputs.release_type }}
