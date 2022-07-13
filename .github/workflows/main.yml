@@ -12,6 +12,26 @@ on:
 
 jobs:
   prepare_release:
-    uses: marvjohnson/composit-action/.github/workflows/action.yml@main
-    with:
-      release_type: ${{ inputs.release_type }}
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+      - shell: bash
+        name: update_version
+        run: |
+          npm --no-git-tag-version version ${{ inputs.release_type }}
+          echo "updated_version=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+      - shell: bash
+        name: commit
+        run: |
+          git config user.name 'Github Action'
+          git config user.email '<>'
+          git checkout -b release/${{ env.updated_version }}
+          git add .
+          git commit -m "Preparing ${{ env.updated_version }} Release"
+          git push origin release/${{ env.updated_version }}
+          gh pr create --title "Prepare ${{ env.updated_version }} Release" --body ''
