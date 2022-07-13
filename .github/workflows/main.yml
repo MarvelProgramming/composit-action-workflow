@@ -7,7 +7,7 @@ jobs:
   foo:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/composit-action@v1
+      - uses: marvjohnson/composit-action@v1
         env:
           VERSION: ${{ inputs.version }}
         with:
