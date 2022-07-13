@@ -7,13 +7,10 @@ on:
         options:
         - thing1
         - thing2
-
 jobs:
   foo:
     runs-on: ubuntu-latest
     steps:
-        env:
-          PAT: ${{ secrets.Pat }}
       - if: ${{ env.PAT != '' }}
         run: |
           curl \
@@ -24,3 +21,5 @@ jobs:
           -d '{"ref":"topic-branch","inputs":{"name":"Mona the Octocat","home":"San Francisco, CA"}}'
       - if: ${{ env.PAT == '' }}
         run: echo 'env is empty! $PAT'
+        env:
+          PAT: ${{ secrets.Pat }}
