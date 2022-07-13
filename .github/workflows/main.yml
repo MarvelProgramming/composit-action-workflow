@@ -7,13 +7,13 @@ on:
         options:
         - thing1
         - thing2
-env:
-  PAT: ${{ secrets.pat }}
 jobs:
   foo:
     runs-on: ubuntu-latest
     steps:
       - shell: bash
+        env:
+          PAT: ${{ secrets.pat }}
         if: ${{ env.PAT != '' }}
         run: |
           curl \
@@ -23,5 +23,7 @@ jobs:
           --url https://api.github.com/repos/marvjohnson/test-action/actions/workflows/test.yml/dispatches \
           -d '{"ref":"topic-branch","inputs":{"name":"Mona the Octocat","home":"San Francisco, CA"}}'
       - shell: bash
+        env:
+          PAT: ${{ secrets.pat }}
         if: ${{ env.PAT == '' }}
         run: echo 'env is empty! $PAT'
