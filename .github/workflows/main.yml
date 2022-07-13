@@ -6,15 +6,6 @@ on:
         required: true
 jobs:
   prepare_release:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 14
-      - uses: marvjohnson/composit-action/.github/workflows/action.yml@main
-        env:
-          NEW_VERSION: ${{ inputs.new_version }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          new_version: $NEW_VERSION
+    uses: marvjohnson/composit-action/.github/workflows/action.yml@main
+    with:
+      NEW_VERSION: ${{ inputs.new_version }}
