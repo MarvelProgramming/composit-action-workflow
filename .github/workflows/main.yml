@@ -9,6 +9,6 @@ jobs:
       - id: foo
         uses: MarvJohnson/composit-action@v1
         with:
-          foo-bar: 'Hello World!'
+          foo: 'Hello World!'
       - run: echo random-number ${{ steps.foo.outputs.bar }}
         shell: bash
