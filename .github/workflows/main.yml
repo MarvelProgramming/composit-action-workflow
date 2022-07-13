@@ -7,11 +7,11 @@ on:
         options:
         - thing1
         - thing2
+env:
+  PAT: ${{ secrets.Pat }}
 jobs:
   foo:
     runs-on: ubuntu-latest
-    env:
-          PAT: ${{ secrets.Pat }}
     steps:
       - shell: bash
         if: ${{ env.PAT != '' }}
@@ -19,7 +19,7 @@ jobs:
           curl \
           -X POST \
           -H "Accept: application/vnd.github+json" \ 
-          -H "Authorization: token ${{ env.PAT }}" \
+          -H "Authorization: token $PAT" \
           --url https://api.github.com/repos/marvjohnson/test-action/actions/workflows/test.yml/dispatches \
           -d '{"ref":"topic-branch","inputs":{"name":"Mona the Octocat","home":"San Francisco, CA"}}'
       - if: ${{ env.PAT == '' }}
