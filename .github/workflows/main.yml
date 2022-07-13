@@ -1,4 +1,12 @@
-on: [workflow_dispatch]
+on:
+  workflow_dispatch:
+    inputs:
+      test:
+        description: 'some input'
+        type: choice
+        options:
+        - thing1
+        - thing2
 
 jobs:
   foo:
