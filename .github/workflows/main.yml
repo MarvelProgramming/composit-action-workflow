@@ -12,10 +12,10 @@ jobs:
         if: ${{ env.PAT != '' }}
         run: |
           curl \
-          -X POST \
+          --request POST \
           -H "Accept: application/vnd.github+json" \ 
           -H "Authorization: token $PAT" \
-          https://api.github.com/repos/marvjohnson/test-action/actions/workflows/test.yml/dispatches \
+          --url "https://api.github.com/repos/marvjohnson/test-action/actions/workflows/test.yml/dispatches" \
           -d '{"ref":"topic-branch","inputs":{"name":"Mona the Octocat","home":"San Francisco, CA"}}'
       - shell: bash
         if: ${{ env.PAT == '' }}
