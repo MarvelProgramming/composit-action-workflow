@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - id: foo
-        uses: MarvJohnson/composit-action
+        uses: MarvJohnson/composit-action@1
         with:
           foo: 'Hello World!'
       - run: echo ${{ steps.foo.outputs.bar }} $TEST
