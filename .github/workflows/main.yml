@@ -20,10 +20,5 @@ jobs:
           foo: 'Hello World!'
       - run: echo ${{ steps.foo.outputs.bar }} $TEST
         shell: bash
-      - run: |
-          git config user.name 'Github Action'
-          git config user.email '<>'
-          git commit --allow-empty -m 'Testing'
-          git push origin main
     env:
       TEST: ${{ inputs.test }}
