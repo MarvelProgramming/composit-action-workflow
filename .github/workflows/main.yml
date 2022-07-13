@@ -7,18 +7,7 @@ on:
         options:
         - thing1
         - thing2
-permissions: write-all
+
 jobs:
   foo:
-    runs-on: ubuntu-latest
-    name: A job to test composit actions
-    steps:
-      - uses: actions/checkout@v3
-      - id: foo
-        uses: MarvJohnson/composit-action@v1
-        with:
-          foo: 'Hello World!'
-      - run: echo ${{ steps.foo.outputs.bar }} $TEST
-        shell: bash
-    env:
-      TEST: ${{ inputs.test }}
+    uses: MarvJohnson/test-action/tree/main/.github/workflows/test.yml@main
