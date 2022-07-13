@@ -14,5 +14,6 @@ jobs:
       - uses: marvjohnson/composit-action@v1
         env:
           VERSION: ${{ inputs.version }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           version: $VERSION
