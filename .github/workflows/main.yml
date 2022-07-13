@@ -10,4 +10,4 @@ on:
 
 jobs:
   foo:
-    uses: MarvJohnson/test-action/tree/main/.github/workflows/test.yml@main
+    uses: marvjohnson/test-action/.github/workflows/test.yml@main
