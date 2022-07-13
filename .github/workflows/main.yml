@@ -6,4 +6,10 @@ jobs:
       - shell: bash
         env:
           PAT: ${{ secrets.pat }}
+        if: ${{ env.pat != '' }}
         run: echo "$PAT"
+      - shell: bash
+        env:
+          PAT: ${{ secrets.pat }}
+        if: ${{ env.pat == '' }}
+        run: echo "no pat!"
