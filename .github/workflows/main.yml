@@ -1,12 +1,4 @@
-on:
-  workflow_dispatch:
-    inputs:
-      test:
-        description: 'some input'
-        type: choice
-        options:
-        - thing1
-        - thing2
+on: workflow_dispatch
 jobs:
   foo:
     runs-on: ubuntu-latest
