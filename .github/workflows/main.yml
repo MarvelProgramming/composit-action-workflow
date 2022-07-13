@@ -10,5 +10,5 @@ jobs:
         uses: MarvJohnson/composit-action@v1
         with:
           foo: 'Hello World!'
-      - run: echo random-number ${{ steps.foo.outputs.bar }}
+      - run: echo ${{ steps.foo.outputs.bar }}
         shell: bash
