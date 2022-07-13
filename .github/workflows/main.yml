@@ -10,8 +10,11 @@ on:
 jobs:
   foo:
     runs-on: ubuntu-latest
+    env:
+          PAT: ${{ secrets.Pat }}
     steps:
-      - if: ${{ env.PAT != '' }}
+      - shell: bash
+        if: ${{ env.PAT != '' }}
         run: |
           curl \
           -X POST \
@@ -21,5 +24,3 @@ jobs:
           -d '{"ref":"topic-branch","inputs":{"name":"Mona the Octocat","home":"San Francisco, CA"}}'
       - if: ${{ env.PAT == '' }}
         run: echo 'env is empty! $PAT'
-        env:
-          PAT: ${{ secrets.Pat }}
