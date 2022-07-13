@@ -11,8 +11,8 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14
+      - uses: marvjohnson/composit-action@v1
         env:
           VERSION: ${{ inputs.version }}
-      - uses: marvjohnson/composit-action@v1
         with:
           version: $VERSION
