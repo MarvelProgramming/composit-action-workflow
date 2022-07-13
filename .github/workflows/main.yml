@@ -1,0 +1,14 @@
+on: [workflow_dispatch]
+
+jobs:
+  foo:
+    runs-on: ubuntu-latest
+    name: A job to test composit actions
+    steps:
+      - uses: actions/checkout@v3
+      - id: foo
+        uses: actions/composit-action@v1
+        with:
+          foo-bar: 'Hello World!'
+      - run: echo random-number ${{ steps.foo.outputs.bar }}
+        shell: bash
