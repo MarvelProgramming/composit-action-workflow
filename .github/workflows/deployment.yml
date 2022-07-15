@@ -11,6 +11,6 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git pull --all
-          git branch -l
+          git branch -lr
           echo "next_branch=$(git branch --list -a | grep -E '^[[:blank:]]{2}[[:digit:]]\.[[:digit:]]_next$')"
       - run: echo ${{ env.next_branch }}
