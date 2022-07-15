@@ -7,12 +7,13 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v3
       - name: step1
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git pull --all
-          git branch -lr
-          echo "next_branch=$(echo $(echo $(git branch -lr 'origin/*.*_next' | sed -n 's/.*origin\/\([[:digit:]].[[:digit:]]_next\)/\1/p')))" >> $GITHUB_ENV
-      - run: |
-          git switch ${{ env.next_branch }}
-          git branch --show-current
+          echo "next_branch=$(echo $(echo $(git branch -lr 'origin/*.*_next' | sed -n 's/.*origin\/\([[:digit:]].[[:digit:]]\)_next/\1/p')))" >> $GITHUB_ENV
+          echo "release_branch=$(git branch -lr 'release/*.*')"
+      - env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+            git switch "${{ env.next_branch }}_next"
+            cd public
+            echo ${{ env.release_branch }}
