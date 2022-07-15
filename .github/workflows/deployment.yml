@@ -43,11 +43,10 @@ jobs:
           git push origin 'release/${{ env.new_version }}'
           gh pr create --title "Prepare $(node -p "require('./package.json').version")" --body '' -B "${{ env.next_branch }}_preview"
       - if: ${{ inputs.is_final == true }}
-        # Get current version without preid and set the version, commit, and PR with it
         run: |
-          echo ${{ env.release_version }}
-        #git add .
-        #git commit -m "Prepare $(node -p "require('./package.json').version")"
-        #git push origin 'release/${{ env.new_version }}'
-        #gh pr create --title "Prepare $(node -p "require('./package.json').version")" --body '' -B "${{ env.next_branch }}_preview"
+          npm --no-git-tag-version version "${{ env.release_version }}"
+          git add .
+          git commit -m "Prepare ${{ env.release_version }}"
+          git push origin 'release/${{ env.new_version }}'
+          gh pr create --title "Prepare ${{ env.release_version }}" --body '' -B "${{ env.next_branch }}_preview"
             
