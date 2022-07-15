@@ -34,6 +34,7 @@ jobs:
             git config user.email '<>'
             git checkout -B 'release/${{ env.new_version }}'
             git reset --hard 'origin/release/${{ env.new_version }}' || echo "This is a new branch. Resetting isn't possible"
+            echo "release_version=$(node -p "require('./package.json').version" | sed -n 's/\([[:digit:]]\.[[:digit:]]\.[[:digit:]]\)-rc\.[[:digit:]]/\1/p')"
       - if: ${{ inputs.is_final == false }}
         run: |
           npm --no-git-tag-version --preid='rc' version prerelease
@@ -44,7 +45,7 @@ jobs:
       - if: ${{ inputs.is_final == true }}
         # Get current version without preid and set the version, commit, and PR with it
         run: |
-          node -p "require('./package.json').version" | sed -n 's/\([[:digit:]]\.[[:digit:]]\.[[:digit:]]\)-rc\.[[:digit:]]/\1/p'
+          echo ${{ env.release_version }}
         #git add .
         #git commit -m "Prepare $(node -p "require('./package.json').version")"
         #git push origin 'release/${{ env.new_version }}'
