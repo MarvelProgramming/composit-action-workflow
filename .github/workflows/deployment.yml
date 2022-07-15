@@ -12,7 +12,7 @@ jobs:
         run: |
           git pull --all
           git branch -lr
-          echo "next_branch=$(echo $(git branch -lr 'origin/*.*_next' | grep -E '^[[:blank:]]{2}origin/.\.._next$'))" | xargs >> $GITHUB_ENV
+          echo "next_branch=$(echo $(echo $(git branch -lr 'origin/*.*_next' | sed -n 's/.*origin\/\([[:digit:]].[[:digit:]]_next\)/\1/p')))" >> $GITHUB_ENV
       - run: |
           git switch ${{ env.next_branch }}
           git branch --show-current
