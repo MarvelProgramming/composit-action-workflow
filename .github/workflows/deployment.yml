@@ -7,8 +7,11 @@ on:
         - major
         - minor
         - patch
-        - final
         default: patch
+        required: true
+      is_final:
+        type: boolean
+        default: false
         required: true
 
 jobs:
@@ -31,19 +34,19 @@ jobs:
             git config user.email '<>'
             git checkout -B 'release/${{ env.new_version }}'
             git reset --hard 'origin/release/${{ env.new_version }}' || echo "This is a new branch. Resetting isn't possible"
-      - if: ${{ inputs.release_type != 'final' }}
+      - if: ${{ inputs.is_final == false }}
         run: |
           npm --no-git-tag-version --preid='rc' version prerelease
           git add .
           git commit -m "Prepare $(node -p "require('./package.json').version")"
           git push origin 'release/${{ env.new_version }}'
           gh pr create --title "Prepare $(node -p "require('./package.json').version")" --body '' -B "${{ env.next_branch }}_preview"
-      - if: ${{ inputs.release_type == 'final' }}
+      - if: ${{ inputs.is_final == true }}
         # Get current version without preid and set the version, commit, and PR with it
         run: |
           echo $(node -p "require('./package.json').version" | sed -n 's/\([[:digit:]]\.[[:digit:]]\.[[:digit:]]\)-rc[[:digit:]]/\1/p)
-          git add .
-          git commit -m "Prepare $(node -p "require('./package.json').version")"
-          git push origin 'release/${{ env.new_version }}'
-          gh pr create --title "Prepare $(node -p "require('./package.json').version")" --body '' -B "${{ env.next_branch }}_preview"
+        #git add .
+        #git commit -m "Prepare $(node -p "require('./package.json').version")"
+        #git push origin 'release/${{ env.new_version }}'
+        #gh pr create --title "Prepare $(node -p "require('./package.json').version")" --body '' -B "${{ env.next_branch }}_preview"
             
