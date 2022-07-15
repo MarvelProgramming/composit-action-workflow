@@ -10,7 +10,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git fetch -all
+          git fetch --all
           git branch --list -a
           next_branch=$(git branch --list -r '*.*_next' | xargs)
           echo "next_branch=$next_branch" >> $GITHUB_ENV
