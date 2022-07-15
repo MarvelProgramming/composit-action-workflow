@@ -10,5 +10,6 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          git branch -la
           echo "next_branch=$(git branch --list -a | grep -E '^[[:blank:]]{2}[[:digit:]]\.[[:digit:]]_next$')"
       - run: echo ${{ env.next_branch }}
