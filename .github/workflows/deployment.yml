@@ -10,7 +10,7 @@ jobs:
         run: |
           git pull --all
           echo "next_branch=$(echo $(echo $(git branch -lr 'origin/*.*_next' | sed -n 's/.*origin\/\([[:digit:]].[[:digit:]]\)_next/\1/p')))" >> $GITHUB_ENV
-          echo "release_branch=$(git branch -lr 'release/*.*')"
+          echo "release_branch=$(git branch -lr 'release/*.*')" >> $GITHUB_ENV
       - env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
