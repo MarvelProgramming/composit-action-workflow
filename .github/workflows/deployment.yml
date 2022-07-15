@@ -10,5 +10,6 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "next_branch='$(git branch --list '*.*_next')'" >> $GITHUB_ENV
+          next_branch=$(git branch --list '*.*_next' | xargs)
+          echo "next_branch=$next_branch" >> $GITHUB_ENV
       - run: echo ${{ env.next_branch }}
