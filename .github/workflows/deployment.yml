@@ -1,0 +1,14 @@
+on: workflow_dispatch
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+      - name: step1
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo 'next_branch=$(git branch --list '*.*_next')'
+      - run: echo ${{ env.next_branch }}
