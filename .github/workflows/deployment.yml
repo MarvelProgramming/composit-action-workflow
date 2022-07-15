@@ -12,5 +12,5 @@ jobs:
         run: |
           git pull --all
           git branch -lr
-          echo "next_branch=$(git branch -lr 'origin/*.*_next' | grep -E '^[[:blank:]]{2}(origin/.\.._next)$')"
+          echo "next_branch=$(echo $(git branch -lr 'origin/*.*_next' | grep -E '^[[:blank:]]{2}(origin/.\.._next))$')"
       - run: echo ${{ env.next_branch }}
