@@ -15,5 +15,4 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
             git switch "${{ env.next_branch }}_next"
-            cd public
             echo ${{ env.release_branch }}
