@@ -33,5 +33,5 @@ jobs:
             git add .
             git commit -m "Prepare $(node -p "require('./package.json').version")"
             git push origin 'release/${{ env.new_version }}'
-            gh pr create --title 'Prepare $(node -p "require('./package.json').version")' --body ''
+            gh pr create --title "Prepare $(node -p "require('./package.json').version")" --body ''
             
