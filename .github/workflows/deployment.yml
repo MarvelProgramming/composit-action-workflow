@@ -34,7 +34,7 @@ jobs:
             git config user.email '<>'
             git checkout -B 'release/${{ env.new_version }}'
             git reset --hard 'origin/release/${{ env.new_version }}' || echo "This is a new branch. Resetting isn't possible"
-            echo "release_version=$(node -p "require('./package.json').version" | sed -n 's/\([[:digit:]]\.[[:digit:]]\.[[:digit:]]\)-rc\.[[:digit:]]/\1/p')"
+            echo "release_version=$(node -p "require('./package.json').version" | sed -n 's/\([[:digit:]]\.[[:digit:]]\.[[:digit:]]\)-rc\.[[:digit:]]/\1/p')" >> $GITHUB_ENV
       - if: ${{ inputs.is_final == false }}
         run: |
           npm --no-git-tag-version --preid='rc' version prerelease
