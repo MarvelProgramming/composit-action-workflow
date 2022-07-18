@@ -1,4 +1,6 @@
-on: 
+name: Prepare Release
+on:
+# Allows this workflow to be started manually from the 'Actions' page of the repo
   workflow_dispatch:
     inputs:
       release_type:
@@ -9,44 +11,44 @@ on:
         - patch
         default: patch
         required: true
-      is_final:
-        type: boolean
-        default: false
+# Allows this workflow to be reused by the workflows in other TwilioQuest extensions
+  workflow_call:
+    inputs:
+      release_type:
+        type: string
+        default: patch
         required: true
 
 jobs:
   setup:
     runs-on: ubuntu-latest
-    env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v3
-      - run: |
-          git pull --all
-          echo "next_branch=$(echo $(echo $(git branch -lr 'origin/*.*_next' | sed -n 's/.*origin\/\([[:digit:]].[[:digit:]]\)_next/\1/p')))" >> $GITHUB_ENV
-      - run: |
-            git switch "${{ env.next_branch }}_next"
-            npm --no-git-tag-version version ${{ inputs.release_type }}
-            echo "new_version=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
-      - run: |
-            git config user.name 'GitHub Action'
-            git config user.email '<>'
-            git checkout -B 'release/${{ env.new_version }}'
-            git reset --hard 'origin/release/${{ env.new_version }}' || echo "This is a new branch. Resetting isn't possible"
-            echo "release_version=$(node -p "require('./package.json').version" | sed -n 's/\([[:digit:]]\.[[:digit:]]\.[[:digit:]]\)-rc\.[[:digit:]]/\1/p')" >> $GITHUB_ENV
-      - if: ${{ inputs.is_final == false }}
+        with:
+          node-version: 14
+      - shell: bash
+        name: update_version
         run: |
-          npm --no-git-tag-version --preid='rc' version prerelease
-          git add .
-          git commit -m "Prepare $(node -p "require('./package.json').version")"
-          git push origin 'release/${{ env.new_version }}'
-          gh pr create --title "Prepare $(node -p "require('./package.json').version")" --body '' -B "${{ env.next_branch }}_preview"
-      - if: ${{ inputs.is_final == true }}
+#         Increments part of the package.json version based on 'inputs.release_type' by 1. The option stops npm from automatically
+#         creating a new commit and tag with the new version.
+          npm --no-git-tag-version version ${{ inputs.release_type }}
+#         Appends the current package.json version to the 'env' context in a variable called 'updated_version'.
+#         Here are some helpful resources:
+#           The $() command substitution - https://www.gnu.org/software/bash/manual/html_node/Command-Substitution.html
+#           The use of 'node -p' - https://nodejs.org/api/cli.html#-p---print-script
+#           Dynamically updating 'env' context - https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-an-environment-variable
+          echo "updated_version=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+      - shell: bash
+        env:
+#         This token is necessary for any step using the gh cli. See https://docs.github.com/en/actions/using-workflows/using-github-cli-in-workflows
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        name: commit
         run: |
-          npm --no-git-tag-version version "${{ env.release_version }}"
+          git config user.name 'Github Action'
+          git config user.email '<>'
+          git checkout -b release/${{ env.updated_version }}
           git add .
-          git commit -m "Prepare ${{ env.release_version }}"
-          git push origin 'release/${{ env.new_version }}'
-          gh pr create --title "Prepare ${{ env.release_version }}" --body '' -B "${{ env.next_branch }}_preview"
-            
+          git commit -m "Preparing ${{ env.updated_version }} Release"
+          git push origin release/${{ env.updated_version }}
+          gh pr create --title "Prepare ${{ env.updated_version }} Release" --body ''
