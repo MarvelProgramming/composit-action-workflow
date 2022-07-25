@@ -38,7 +38,6 @@ jobs:
             echo "release_version=$(node -p "require('./package.json').version" | sed -n 's/\([[:digit:]]\.[[:digit:]]\.[[:digit:]]\)-rc\.[[:digit:]]/\1/p')" >> $GITHUB_ENV
       - if: ${{ inputs.is_final == false }}
         run: |
-          git pull --set-upstream origin 'release/${{ env.new_version }}'
           npm --no-git-tag-version --preid='rc' version prerelease
           git add .
           git commit -m "Prepare $(node -p "require('./package.json').version")"
