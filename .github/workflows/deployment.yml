@@ -30,14 +30,12 @@ jobs:
             git config user.name 'GitHub Action'
             git config user.email '<>'
             git checkout -fB "release/${new_version}"
-            found_branch=$(git branch -r | grep "release/${new_version}" || echo "")
-            echo $found_branch
+            branch_exists=$(git branch -r | grep "release/${new_version}" || echo "")
+            if [ "$branch_exists" != "" ]; then
+            git pull origin "release/${new_version}"
+            fi
             npm --no-git-tag-version --preid='rc' version prerelease
             git add .
             git commit -m "Prepare $(node -p "require('./package.json').version")"
             git push --set-upstream origin "release/${new_version}"
             gh pr create --title "Prepare $(node -p "require('./package.json').version")" --body '' -B "${{ env.preview_branch }}"
-            
-#if [ "$release_branch" != "" ]; then
-#           git pull origin "release/${new_version}"
-#           fi
