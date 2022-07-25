@@ -9,9 +9,9 @@ on:
         - patch
         default: patch
         required: true
+        
 env:
   next_branch: 3.2_next
-  main_branch: 3.2_main
   preview_branch: 3.2_preview
   
 jobs:
