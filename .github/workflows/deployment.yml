@@ -31,7 +31,7 @@ jobs:
             git config user.email '<>'
             git checkout -fB "release/${new_version}"
             release_branch=$(git branch -r | grep "release/${new_version}")
-            echo $release_branch
+            echo "${release_branch}"
             npm --no-git-tag-version --preid='rc' version prerelease
             git add .
             git commit -m "Prepare $(node -p "require('./package.json').version")"
