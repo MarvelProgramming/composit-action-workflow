@@ -29,8 +29,10 @@ jobs:
             git config user.name 'GitHub Action'
             git config user.email '<>'
             git checkout -B 'release/${{ env.new_version }}'
+            git reset --hard 'origin/release/${{ env.new_version }}'
             npm --no-git-tag-version --preid='rc' version prerelease
             git add .
             git commit -m "Prepare $(node -p "require('./package.json').version")"
             git push origin 'release/${{ env.new_version }}'
+            gh pr create --title "Prepare $(node -p "require('./package.json').version")" --body ''
             
