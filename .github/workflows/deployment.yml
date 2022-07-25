@@ -31,17 +31,13 @@ jobs:
             git config user.email '<>'
             git checkout -fB "release/${new_version}"
             branch_exists=$(git branch -r | grep "release/${new_version}" || echo "")
-            echo $branch_exists
             if [ -z $branch_exists ]; then
-              echo "foo"
               git pull origin "release/${new_version}"
-              new_version=$(node -p "require('./package.json').version")
-            else
-              echo "nope"
             fi
             npm --no-git-tag-version --preid='rc' version prerelease
+            new_version=$(node -p "require('./package.json').version")
             git add .
-            git commit -m "Prepare $(node -p "require('./package.json').version")"
+            git commit -m "Prepare ${new_version}"
             git push --set-upstream origin "release/${new_version}"
             pr_exists=$(gh pr list -s open -B "release/${new_version}" || echo "")
             if [ -z $pr_exists ]; then
