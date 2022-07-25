@@ -43,7 +43,7 @@ jobs:
             git add .
             git commit -m "Prepare $(node -p "require('./package.json').version")"
             git push --set-upstream origin "release/${new_version}"
-            pr_exists=$(gh pr list -s open -B "release/${new_version}")
+            pr_exists=$(gh pr list -s open -B "release/${new_version}" || echo "")
             if [ -z $pr_exists ]; then
             gh pr create --title "Prepare ${new_version}" --body '' -B "${{ env.preview_branch }}"
             fi
