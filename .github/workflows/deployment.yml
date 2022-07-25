@@ -21,19 +21,17 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: 3.2_next
       - uses: actions/setup-node@v3
       - run: |
-          git pull --all
-          echo "next_branch=$(echo $(echo $(git branch -lr 'origin/*.*_next' | sed -n 's/.*origin\/\([[:digit:]].[[:digit:]]\)_next/\1/p')))" >> $GITHUB_ENV
-      - run: |
-            git switch "${{ env.next_branch }}_next"
             npm --no-git-tag-version version ${{ inputs.release_type }}
             echo "new_version=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
       - run: |
             git config user.name 'GitHub Action'
             git config user.email '<>'
-            git checkout -B 'release/${{ env.new_version }}'
-            git reset --hard 'origin/release/${{ env.new_version }}' || echo "This is a new branch. Resetting isn't possible"
+            git checkout -Bf 'release/${{ env.new_version }}'
+            #git reset --hard 'origin/release/${{ env.new_version }}' || echo "This is a new branch. Resetting isn't possible"
             echo "release_version=$(node -p "require('./package.json').version" | sed -n 's/\([[:digit:]]\.[[:digit:]]\.[[:digit:]]\)-rc\.[[:digit:]]/\1/p')" >> $GITHUB_ENV
       - if: ${{ inputs.is_final == false }}
         run: |
