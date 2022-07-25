@@ -31,8 +31,10 @@ jobs:
             git config user.email '<>'
             git checkout -fB "release/${new_version}"
             branch_exists=$(git branch -r | grep "release/${new_version}" || echo "")
+            echo $branch_exists
             if [ "$branch_exists" != "" ]; then
-            git pull origin "release/${new_version}"
+              echo "foo"
+              git pull origin "release/${new_version}"
             fi
             npm --no-git-tag-version --preid='rc' version prerelease
             git add .
