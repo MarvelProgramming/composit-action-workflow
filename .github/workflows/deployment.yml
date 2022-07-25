@@ -31,6 +31,7 @@ jobs:
             git config user.email '<>'
             git checkout -fB "release/${new_version}"
             release_branch=$(git branch -r | grep release/${new_version})
+            echo $release_branch
             if [ "$release_branch" != "" ]; then
             git pull origin "release/${new_version}"
             fi
