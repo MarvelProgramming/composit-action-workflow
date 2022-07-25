@@ -36,4 +36,4 @@ jobs:
             git add .
             git commit -m "Prepare ${rc_version}"
             git push --set-upstream origin "release/${new_version}"
-            gh pr create --title "Prepare ${rc_version}" --body '' -B "${{ env.preview_branch }}" || echo "PR already exists"
+            gh pr create --title "Prepare ${rc_version}" --body '' -B "${{ env.preview_branch }}" || gh pr edit --title "Prepare ${rc_version}"
