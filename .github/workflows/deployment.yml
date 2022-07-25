@@ -32,9 +32,11 @@ jobs:
             git checkout -fB "release/${new_version}"
             branch_exists=$(git branch -r | grep "release/${new_version}" || echo "")
             echo $branch_exists
-            if [ "$branch_exists" != "" ]; then
+            if [ $branch_exists != "" ]; then
               echo "foo"
               git pull origin "release/${new_version}"
+            else
+              echo "nope"
             fi
             npm --no-git-tag-version --preid='rc' version prerelease
             git add .
