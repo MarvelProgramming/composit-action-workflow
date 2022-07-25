@@ -32,11 +32,12 @@ jobs:
             git checkout -fB "release/${new_version}"
             release_branch=$(git branch -r | grep release/${new_version})
             echo $release_branch
-            if [ "$release_branch" != "" ]; then
-            git pull origin "release/${new_version}"
-            fi
             npm --no-git-tag-version --preid='rc' version prerelease
             git add .
             git commit -m "Prepare $(node -p "require('./package.json').version")"
             git push --set-upstream origin "release/${new_version}"
             gh pr create --title "Prepare $(node -p "require('./package.json').version")" --body '' -B "${{ env.preview_branch }}"
+            
+#if [ "$release_branch" != "" ]; then
+#           git pull origin "release/${new_version}"
+#           fi
