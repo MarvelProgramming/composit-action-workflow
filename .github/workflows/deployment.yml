@@ -43,5 +43,5 @@ jobs:
             git add .
             git commit -m "Prepare $(node -p "require('./package.json').version")"
             git push --set-upstream origin "release/${new_version}"
-            gh pr view "release/${new_version}"
+            echo $(gh pr --json view)
             gh pr create --title "Prepare ${new_version}" --body '' -B "${{ env.preview_branch }}"
