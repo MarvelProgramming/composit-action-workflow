@@ -30,7 +30,7 @@ jobs:
       - run: |
             git config user.name 'GitHub Action'
             git config user.email '<>'
-            git checkout -B --force 'release/${{ env.new_version }}'
+            git checkout -fB 'release/${{ env.new_version }}'
             #git reset --hard 'origin/release/${{ env.new_version }}' || echo "This is a new branch. Resetting isn't possible"
             echo "release_version=$(node -p "require('./package.json').version" | sed -n 's/\([[:digit:]]\.[[:digit:]]\.[[:digit:]]\)-rc\.[[:digit:]]/\1/p')" >> $GITHUB_ENV
       - if: ${{ inputs.is_final == false }}
