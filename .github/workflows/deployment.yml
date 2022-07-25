@@ -25,6 +25,7 @@ jobs:
           ref: 3.2_next
       - uses: actions/setup-node@v3
       - run: |
+            git pull --all
             npm --no-git-tag-version version ${{ inputs.release_type }}
             echo "new_version=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
       - run: |
