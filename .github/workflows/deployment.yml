@@ -31,6 +31,7 @@ jobs:
             git config user.email '<>'
             git checkout -fB "release/${new_version}"
             branch_exists=$(git branch -r | grep "release/${new_version}" || echo "")
+            echo $branch_exists
             if [ -z $branch_exists ]; then
               git pull origin "release/${new_version}"
             fi
