@@ -27,8 +27,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 14
-      - shell: bash
-        env:
+      - env:
           # This token is necessary for any step using the gh cli. See https://docs.github.com/en/actions/using-workflows/using-github-cli-in-workflows
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
