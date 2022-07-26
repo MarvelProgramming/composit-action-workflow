@@ -1,4 +1,4 @@
-name: finalize_deployment
+name: Finalize Deployment
 
 on:
   workflow_dispatch:
