@@ -36,6 +36,7 @@ jobs:
           rc_regex="s/\([[:digit:]]\.[[:digit:]]\.[[:digit:]]\)-rc\.[[:digit:]]/\1/p"
           release_version=$($current_version | sed -n $rc_regex)
           echo $current_version
+          git fetch
           git checkout -f "release/${current_version}"
           if git pull origin "release/${current_version}"; then
             npm --no-git-tag-version version $release_version
