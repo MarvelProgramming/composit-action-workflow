@@ -34,7 +34,7 @@ jobs:
           git config user.email '<>'
           current_version=$(node -p "require('./package.json').version")
           rc_regex=s/\([[:digit:]]\.[[:digit:]]\.[[:digit:]]\)-rc\.[[:digit:]]/\1/p
-          release_version=$($current_version | sed -n $rc_regex)
+          release_version=$($current_version | sed -n "${rc_regex}")
           echo "current_version ${current_version}"
           echo "rc_regex ${rc_regex}"
           echo "release_version ${release_version}"
