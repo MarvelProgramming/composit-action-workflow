@@ -29,15 +29,11 @@ jobs:
       - env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          #Increases part of package.json version number by 1, based on the 'release_type' input
           npm --no-git-tag-version version ${{ inputs.release_type }}
           git config user.name 'GitHub Action'
           git config user.email '<>'
-          #Gets the package.json version and stores it in the 'new_version' bash variable
           current_version=$(node -p "require('./package.json').version")
-          #Matches against #.#.#-rc.# where # are numbers
           rc_regex="s/\([[:digit:]]\.[[:digit:]]\.[[:digit:]]\)-rc\.[[:digit:]]/\1/p"
-          #Removes the -rc.# part of the version using the pattern above
           release_version=$($current_version | sed -n $rc_regex)
           git checkout -f 'release/${current_version}'
           if git pull origin "release/${current_version}"; then
@@ -50,5 +46,14 @@ jobs:
             echo "A deployment must be prepared before finalizing"
           fi
           
-          
-     
+#Increases part of package.json version number by 1, based on the 'release_type' input
+#npm --no-git-tag-version version ${{ inputs.release_type }}
+
+#Gets the package.json version and stores it in the 'new_version' bash variable
+#current_version=$(node -p "require('./package.json').version")
+
+#Matches against #.#.#-rc.# where # are numbers
+#rc_regex="s/\([[:digit:]]\.[[:digit:]]\.[[:digit:]]\)-rc\.[[:digit:]]/\1/p"
+
+#Removes the -rc.# part of the version using the pattern above
+#release_version=$($current_version | sed -n $rc_regex)     
