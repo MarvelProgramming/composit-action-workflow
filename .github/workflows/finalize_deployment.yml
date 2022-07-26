@@ -9,6 +9,8 @@ on:
         - major
         - minor
         - patch
+        default: patch
+        required: true
 
 env:
   next_branch: 3.2_next
@@ -31,16 +33,18 @@ jobs:
           npm --no-git-tag-version version ${{ inputs.release_type }}
           git config user.name 'GitHub Action'
           git config user.email '<>'
-          git checkout -f 'release/${current_version'
-          if git pull origin "release/${new_version}"; then
-            #Gets the package.json version and stores it in the 'new_version' bash variable
-            current_version=$(node -p "require('./package.json').version")
-            rc_regex="s/\([[:digit:]]\.[[:digit:]]\.[[:digit:]]\)-rc\.[[:digit:]]/\1/p"
-            release_version=$($current_version | sed -n $rc_regex)
+          #Gets the package.json version and stores it in the 'new_version' bash variable
+          current_version=$(node -p "require('./package.json').version")
+          #Matches against #.#.#-rc.# where # are numbers
+          rc_regex="s/\([[:digit:]]\.[[:digit:]]\.[[:digit:]]\)-rc\.[[:digit:]]/\1/p"
+          #Removes the -rc.# part of the version using the pattern above
+          release_version=$($current_version | sed -n $rc_regex)
+          git checkout -f 'release/${current_version}'
+          if git pull origin "release/${current_version}"; then
             npm --no-git-tag-version version $release_version
             git add .
             git commit -m "Prepare ${release_version}"
-            git push origin "release/${release_version}"
+            git push origin "release/${current_version}"
             gh pr edit --title "Prepare $release_version"
           else
             echo "A deployment must be prepared before finalizing"
