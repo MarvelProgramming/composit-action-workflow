@@ -47,7 +47,9 @@ jobs:
           else
             echo "::warning::${{ env.release_candidate_warning_message }}"
           fi
-          
+
+##COMMENTS##
+
 #Increases part of package.json version number by 1, based on the 'release_type' input
 #npm --no-git-tag-version version ${{ inputs.release_type }}
 
