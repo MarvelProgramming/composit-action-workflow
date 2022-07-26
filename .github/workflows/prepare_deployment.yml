@@ -39,7 +39,9 @@ jobs:
             git commit -m "Prepare ${rc_version}"
             git push origin "release/${new_version}"
             gh pr create --title "Prepare ${rc_version}" --body '' -B "${{ env.preview_branch }}" || gh pr edit --title "Prepare ${rc_version}"
-            
+
+##COMMENTS##
+
 #Increases part of package.json version number by 1, based on the 'release_type' input
 #npm --no-git-tag-version version ${{ inputs.release_type }}
 
