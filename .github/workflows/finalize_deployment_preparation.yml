@@ -1,4 +1,4 @@
-name: Finalize Deployment
+name: Finalize Deployment Preparation
 
 on:
   workflow_dispatch:
@@ -13,8 +13,8 @@ on:
         required: true
 
 env:
-  next_branch: 3.2_next
   preview_branch: 3.2_preview
+  release_candidate_warning_message: "At least one release candidate must exist before finalizing!"
 
 jobs:
   setup:
@@ -37,7 +37,7 @@ jobs:
           git checkout -f "release/${release_version}"
           if git pull origin "release/${release_version}" ; then
             if ! npm --no-git-tag-version version $release_version ; then
-              echo "::warning::At least one release candidate must exist before finalizing!"
+              echo "::warning::${{ env.release_candidate_warning_message }}"
             else
               git add .
               git commit -m "Prepare ${release_version}"
@@ -45,7 +45,7 @@ jobs:
               gh pr edit --title "Prepare ${release_version}"
             fi
           else
-            echo "::warning::A deployment must be prepared before finalizing"
+            echo "::warning::${{ env.release_candidate_warning_message }}"
           fi
           
 #Increases part of package.json version number by 1, based on the 'release_type' input
@@ -53,3 +53,6 @@ jobs:
 
 #Gets the package.json version and stores it in the 'new_version' bash variable
 #release_version=$(node -p "require('./package.json').version")
+
+#Runs the bash between 'then' and 'else' as long as the 'git pull' succeeds
+#if git pull origin "release/${release_version}" ; then
