@@ -37,7 +37,7 @@ jobs:
           git checkout -f "release/${release_version}"
           if git pull origin "release/${release_version}" ; then
             if ! npm --no-git-tag-version version $release_version ; then
-              echo "At least one release candidate must exist before finalizing!"
+              echo "::warning::At least one release candidate must exist before finalizing!"
             else
               git add .
               git commit -m "Prepare ${release_version}"
@@ -45,17 +45,11 @@ jobs:
               gh pr edit --title "Prepare ${release_version}"
             fi
           else
-            echo "A deployment must be prepared before finalizing"
+            echo "::warning::A deployment must be prepared before finalizing"
           fi
           
 #Increases part of package.json version number by 1, based on the 'release_type' input
 #npm --no-git-tag-version version ${{ inputs.release_type }}
 
 #Gets the package.json version and stores it in the 'new_version' bash variable
-#current_version=$(node -p "require('./package.json').version")
-
-#Matches against #.#.#-rc.# where # are numbers
-#rc_regex="s/\([[:digit:]]\.[[:digit:]]\.[[:digit:]]\)-rc\.[[:digit:]]/\1/p"
-
-#Removes the -rc.# part of the version using the pattern above and stores it in the 'release_version' bash variable
-#release_version=$($current_version | sed -n $rc_regex)     
+#release_version=$(node -p "require('./package.json').version")
